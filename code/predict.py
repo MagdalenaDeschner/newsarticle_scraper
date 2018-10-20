@@ -1,6 +1,6 @@
 import numpy as np
 import pickle as pkl
-from sklearn.metrics import classification_report 
+from sklearn.metrics import classification_report, confusion_matrix 
 
 # load test data
 fileObject = open(r"C:\Users\Magdalena Deschner\git_project_newsarticles\X_test.p", "rb")
@@ -30,6 +30,5 @@ print(y_test.shape)
 y_pred = clf.predict(X_test.todense())
 
 # print classification report
-#print(classification_report(y_test, y_pred))
-for item1, item2 in zip(np.array(y_test), y_pred):
-    print(item1, item2)
+print(classification_report(y_test, y_pred))
+#print(confusion_matrix(y_test, y_pred))
