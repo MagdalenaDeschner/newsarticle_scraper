@@ -26,7 +26,7 @@ categories = ["https://www.n-tv.de/politik/",
              "https://www.n-tv.de/technik/",
              "https://www.n-tv.de/auto/"]
 
-# set up emply list for articles and links
+# set up empty list for articles and links
 all_articles = []
 all_links = []
 all_links.extend(sport)
@@ -55,7 +55,7 @@ for category in categories:
         # split link (single token) to one string with several tokens
         link_splitted = " ".join(link.split("/"))
         
-        # check if mediathek or thema are included in link, these are not actual articles
+        # check if "mediathek" or "thema" are included in link, these are not actual articles
         if link_splitted.find("mediathek")is not -1:
             pass
         elif link_splitted.find("thema") is not -1:
