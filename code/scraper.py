@@ -25,9 +25,9 @@ sport = ["https://www.n-tv.de/sport/fussball/Mourinho-kaempft-um-seine-Karriere-
    
 # define desired category urls
 categories = ["https://www.n-tv.de/politik/",
-             "https://www.n-tv.de/wirtschaft/",
-             #"https://www.n-tv.de/sport/", # loop below doesnt work for sport category
-             "https://www.n-tv.de/technik/"]
+              "https://www.n-tv.de/wirtschaft/",
+              #"https://www.n-tv.de/sport/", # loop below doesnt work for sport category
+              "https://www.n-tv.de/technik/"]
 
 # set up empty list for articles and links
 all_articles = []
@@ -72,6 +72,7 @@ for category in categories:
 # drop duplicate links 
 all_links = set(all_links)
 all_links = list(all_links)
+print(len(all_links))
 
 # loop over article links to extract category, title and body      
 data = pd.DataFrame()
@@ -89,7 +90,7 @@ for link in all_links:
             text = paragraph.text.strip()
             bodytext.append(text)
         bodytext = bodytext[1:-1]
-        data.loc[link, "body"] = body = " ".join(bodytext)
+        data.loc[link, "body"] = " ".join(bodytext)
         
         print(data.shape[0])
 
