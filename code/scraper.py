@@ -75,28 +75,41 @@ all_links = list(all_links)
 print(len(all_links))
 
 # loop over article links to extract category, title and body      
+# loop over article links to extract category, title and body      
 data = pd.DataFrame()
-bodytext = []
-for link in all_links:
+
+for idx, link in enumerate(all_links):
     try:
         soup = BeautifulSoup(urlopen(Request(link)).read(), "html.parser")
         article = soup.find("article", attrs={"class":"article box section"})
         
         # get category
-        data.loc[link, "category"] = article.find("span", attrs={"class":"category"}).text.strip()
-     
+        category = article.find("span", attrs={"class":"category"}).text.strip()
+
+        # write category to dataframe
+        data.loc[link,"category"] = category    
+
+        # set up empty list for body
+        body = []
+
         # get body
         for paragraph in article.find_all("p"):
             text = paragraph.text.strip()
-            bodytext.append(text)
-        bodytext = bodytext[1:-1]
-        data.loc[link, "body"] = " ".join(bodytext)
+            body.append(text)
         
-        print(data.shape[0])
+        # drop first and last row 
+        body = body[1:-1]
+
+        # join paragraphs to one single string
+        body = " ".join(body)
+        
+        # write body to dataframe
+        data.loc[link,"body"] = body  
 
     except:
-        pass   
-    
+        pass  
+    print(idx)
+
 # write data to pickle
 fileObject = open(r"C:\Users\Magdalena Deschner\git_project_newsarticles\articles.p", "wb")
 pkl.dump(data, fileObject)
