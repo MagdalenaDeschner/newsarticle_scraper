@@ -17,14 +17,17 @@ sport = ["https://www.n-tv.de/sport/fussball/Mourinho-kaempft-um-seine-Karriere-
          "https://www.n-tv.de/sport/fussball/Bayerns-Rettertrainer-heisst-Labbadia-article20677437.html",
          "https://www.n-tv.de/sport/fussball/Tic-Tac-Toe-und-Trap-waeren-stolz-article20679247.html",
          "https://www.n-tv.de/sport/formel1/So-rohen-Hunger-kannst-du-nicht-schlagen-article20677252.html",
-         "https://www.n-tv.de/sport/formel1/Aus-der-Chancenlosigkeit-greift-Vettel-an-article20675463.html"]
+         "https://www.n-tv.de/sport/formel1/Aus-der-Chancenlosigkeit-greift-Vettel-an-article20675463.html",
+         "https://www.n-tv.de/sport/fussball/FC-Bayern-erloest-sich-BVB-tanzt-Stuttgart-weg-article20680365.html",
+         "https://www.n-tv.de/sport/fussball/Fuerth-klettert-nach-Aufholjagd-auf-Platz-zwei-article20680319.html",
+         "https://www.n-tv.de/sport/fussball/Fuenferpacker-Jovic-euphorisiert-die-Eintracht-article20680170.html",
+         "https://www.n-tv.de/sport/fussball/Der-bittere-Rausch-einer-betrogenen-Nacht-article20678813.html"]
    
 # define desired category urls
 categories = ["https://www.n-tv.de/politik/",
              "https://www.n-tv.de/wirtschaft/",
              #"https://www.n-tv.de/sport/", # loop below doesnt work for sport category
-             "https://www.n-tv.de/technik/",
-             "https://www.n-tv.de/auto/"]
+             "https://www.n-tv.de/technik/"]
 
 # set up empty list for articles and links
 all_articles = []
@@ -51,7 +54,7 @@ for category in categories:
         
         # get link of article
         link = article.a.get("href")
-        
+
         # split link (single token) to one string with several tokens
         link_splitted = " ".join(link.split("/"))
         
@@ -94,6 +97,6 @@ for link in all_links:
         pass   
     
 # write data to pickle
-fileObject = open("articles.p", "wb")
+fileObject = open(r"C:\Users\Magdalena Deschner\git_project_newsarticles\articles.p", "wb")
 pkl.dump(data, fileObject)
 fileObject.close()
