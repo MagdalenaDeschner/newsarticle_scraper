@@ -1,4 +1,5 @@
 from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import SGDClassifier
 import pickle as pkl
 
 # load training data
