@@ -23,12 +23,11 @@ fileObject.close()
 
 # transform test data with tfidf vectorizer
 X_test = tfidf.transform(X_test)
-print(X_test.shape)
-print(y_test.shape)
 
 # predict category label of test data
 y_pred = clf.predict(X_test.todense())
 
 # print classification report
 print(classification_report(y_test, y_pred))
-#print(confusion_matrix(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))
+print("Test accuracy: {}".format(round(clf.score(X_test.toarray(), y_test),2)))

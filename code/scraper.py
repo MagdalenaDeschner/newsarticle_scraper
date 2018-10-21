@@ -4,35 +4,35 @@ import pandas as pd
 import pickle as pkl
 from urllib.request import urlopen, Request
 
-# define links to sport category manually      
-sport = ["https://www.n-tv.de/sport/fussball/Mourinho-kaempft-um-seine-Karriere-article20679307.html",
-         "https://www.n-tv.de/sport/fussball/Nur-die-Wuerde-des-FC-Bayern-ist-unantastbar-article20679435.html",
-         "https://www.n-tv.de/sport/fussball/Gerhard-Delling-kuendigt-bei-der-ARD-article20678453.html",
-         "https://www.n-tv.de/sport/Rihanna-will-nicht-beim-Superbowl-singen-article20679903.html",
-         "https://www.n-tv.de/sport/formel1/Vettels-WM-Wunder-rueckt-in-weite-Ferne-article20679896.html",
-         "https://www.n-tv.de/sport/fussball/Wofuer-Uli-Hoeness-n-tv-attackiert-hat-article20679629.html",
-         "https://www.n-tv.de/sport/fussball/Koschinat-bringt-Sandhausen-in-Schwung-article20679682.html",
-         "https://www.n-tv.de/sport/fussball/FC-Bayern-greift-deutsche-Medien-an-article20679096.html",
-         "https://www.n-tv.de/sport/fussball/Die-heftigsten-Zitate-der-Bayern-Schelte-article20679458.html",
-         "https://www.n-tv.de/sport/fussball/Bayerns-Rettertrainer-heisst-Labbadia-article20677437.html",
-         "https://www.n-tv.de/sport/fussball/Tic-Tac-Toe-und-Trap-waeren-stolz-article20679247.html",
-         "https://www.n-tv.de/sport/formel1/So-rohen-Hunger-kannst-du-nicht-schlagen-article20677252.html",
-         "https://www.n-tv.de/sport/formel1/Aus-der-Chancenlosigkeit-greift-Vettel-an-article20675463.html",
-         "https://www.n-tv.de/sport/fussball/FC-Bayern-erloest-sich-BVB-tanzt-Stuttgart-weg-article20680365.html",
-         "https://www.n-tv.de/sport/fussball/Fuerth-klettert-nach-Aufholjagd-auf-Platz-zwei-article20680319.html",
-         "https://www.n-tv.de/sport/fussball/Fuenferpacker-Jovic-euphorisiert-die-Eintracht-article20680170.html",
-         "https://www.n-tv.de/sport/fussball/Der-bittere-Rausch-einer-betrogenen-Nacht-article20678813.html"]
+# # define links to sport category manually      
+# sport = ["https://www.n-tv.de/sport/fussball/Mourinho-kaempft-um-seine-Karriere-article20679307.html",
+#          "https://www.n-tv.de/sport/fussball/Nur-die-Wuerde-des-FC-Bayern-ist-unantastbar-article20679435.html",
+#          "https://www.n-tv.de/sport/fussball/Gerhard-Delling-kuendigt-bei-der-ARD-article20678453.html",
+#          "https://www.n-tv.de/sport/Rihanna-will-nicht-beim-Superbowl-singen-article20679903.html",
+#          "https://www.n-tv.de/sport/formel1/Vettels-WM-Wunder-rueckt-in-weite-Ferne-article20679896.html",
+#          "https://www.n-tv.de/sport/fussball/Wofuer-Uli-Hoeness-n-tv-attackiert-hat-article20679629.html",
+#          "https://www.n-tv.de/sport/fussball/Koschinat-bringt-Sandhausen-in-Schwung-article20679682.html",
+#          "https://www.n-tv.de/sport/fussball/FC-Bayern-greift-deutsche-Medien-an-article20679096.html",
+#          "https://www.n-tv.de/sport/fussball/Die-heftigsten-Zitate-der-Bayern-Schelte-article20679458.html",
+#          "https://www.n-tv.de/sport/fussball/Bayerns-Rettertrainer-heisst-Labbadia-article20677437.html",
+#          "https://www.n-tv.de/sport/fussball/Tic-Tac-Toe-und-Trap-waeren-stolz-article20679247.html",
+#          "https://www.n-tv.de/sport/formel1/So-rohen-Hunger-kannst-du-nicht-schlagen-article20677252.html",
+#          "https://www.n-tv.de/sport/formel1/Aus-der-Chancenlosigkeit-greift-Vettel-an-article20675463.html",
+#          "https://www.n-tv.de/sport/fussball/FC-Bayern-erloest-sich-BVB-tanzt-Stuttgart-weg-article20680365.html",
+#          "https://www.n-tv.de/sport/fussball/Fuerth-klettert-nach-Aufholjagd-auf-Platz-zwei-article20680319.html",
+#          "https://www.n-tv.de/sport/fussball/Fuenferpacker-Jovic-euphorisiert-die-Eintracht-article20680170.html",
+#          "https://www.n-tv.de/sport/fussball/Der-bittere-Rausch-einer-betrogenen-Nacht-article20678813.html"]
    
 # define desired category urls
 categories = ["https://www.n-tv.de/politik/",
               "https://www.n-tv.de/wirtschaft/",
-              #"https://www.n-tv.de/sport/", # loop below doesnt work for sport category
+              #"https://www.n-tv.de/sport/", # loop below doesnt work for sport category (doesn't find article)
               "https://www.n-tv.de/technik/"]
 
 # set up empty list for articles and links
 all_articles = []
-all_links = []
-all_links.extend(sport)
+new_links = []
+#new_links.extend(sport)
 
 # loop over categories to get the article links
 for category in categories:
@@ -67,14 +67,28 @@ for category in categories:
             links.append(link)
     
     # append links of category to overall list of links
-    all_links.extend(links)
+    new_links.extend(links)
+
+# load "old" links
+old_links = pd.read_csv(r"C:\Users\Magdalena Deschner\git_project_newsarticles\links.csv", usecols=["Link"])
+old_links = [link for link in old_links.Link]
+print(len(old_links))
+
+# extend list of old links with new links
+old_links.extend(new_links)
+print(len(new_links))
 
 # drop duplicate links 
-all_links = set(all_links)
+all_links = set(old_links)
 all_links = list(all_links)
 print(len(all_links))
 
-# loop over article links to extract category, title and body      
+# safe all_links as csv
+all_links_df = pd.DataFrame(all_links, columns = ["Link"])
+print(all_links_df)
+all_links_df.to_csv(r"C:\Users\Magdalena Deschner\git_project_newsarticles\links.csv")
+
+
 # loop over article links to extract category, title and body      
 data = pd.DataFrame()
 

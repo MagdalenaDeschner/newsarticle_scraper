@@ -40,11 +40,12 @@ fileObject.close()
 
 # fit tfidf on training data
 tfidf = TfidfVectorizer()
-X_train_vect = tfidf.fit_transform(X_train)
+tfidf_fitted = tfidf.fit(X_train)
+X_train_vect = tfidf_fitted.transform(X_train)
 
 # store fitted tfidf vectorizer
 fileObject = open(r"C:\Users\Magdalena Deschner\git_project_newsarticles\tfidf_vectorizer.p", "wb")
-pkl.dump(tfidf, fileObject)
+pkl.dump(tfidf_fitted, fileObject)
 fileObject.close()
 
 # store as dataframe
